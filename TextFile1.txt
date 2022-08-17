@@ -1,0 +1,5 @@
+ERROR code doc
+Hopefully this file helps to trooubleshoot
+
+ERROR-noDataTxt - data.txt was not found to exist in the expected location, locate the file and return it or restore from a back-up or overwrite the file
+ERROR-noMainMenuTxt - mainMenu.txt not found, replcae it
