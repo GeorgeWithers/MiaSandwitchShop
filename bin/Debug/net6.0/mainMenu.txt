@@ -1,0 +1,9 @@
+Welcome to Purveyors In Sandwitch Sector ordering
+
+Options:
+[n] to start a New order
+[c] to Cancel an existing order
+[a] to Ammend an existing order
+[v] to View an existing order
+
+Please press the key for your selection:
