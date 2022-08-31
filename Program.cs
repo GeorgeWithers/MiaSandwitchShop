@@ -18,7 +18,7 @@ while (true)
     if (key == 'a' || key == 'A') { Console.WriteLine("a pressed"); }
     if (key == 'c' || key == 'C') { Console.WriteLine("c pressed"); }
     if (key == 'v' || key == 'V') { Console.WriteLine("v pressed"); }
-    if (key == 'm' || key == 'M') { Console.WriteLine("Already at the main menu. Please make a slection from the list"); }
+    if (key == 'm' || key == 'M') { alreadyHome(); }
     else badInput();
     
 }
@@ -36,6 +36,7 @@ static void newScreen(string screen)
     file = File.Exists("data.txt");
     if (file == false) {
         Console.WriteLine("ERROR-noDataTxt");
+        { }
         noData();
     }
     file = File.Exists("mainMenu.txt");
@@ -50,7 +51,17 @@ static void newScreen(string screen)
     }
 }
 
-static void badInput()
+static void alreadyHome() // If the user is trying to access the menu from the main menu call this
+{
+    int currentLineCursor = Console.CursorTop;
+    Console.SetCursorPosition(0, Console.CursorTop);
+    Console.Write(new string(' ', Console.WindowWidth));
+    Console.SetCursorPosition(0, currentLineCursor);
+    Console.Write("You are already at the main menu choose from the list");
+    return;
+}
+
+static void badInput() // if the user makes a bad selection, call this
 {
     int currentLineCursor = Console.CursorTop;
     Console.SetCursorPosition(0, Console.CursorTop);
