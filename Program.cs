@@ -12,6 +12,7 @@ Console.WriteLine("Starting program\nChecking files");
 FileCheck(); // Check file integrity
 newScreen("mainMenu"); // Display the main menu text
 
+
 //
 //  The input handling subroutines
 //
@@ -19,20 +20,12 @@ newScreen("mainMenu"); // Display the main menu text
 static void mainMenu()
     {
     char key = Console.ReadKey().KeyChar;
-    if (key == 'n' || key == 'N') { newScreen("n"); }
+    if (key == 'n' || key == 'N') { newScreen("n "); }
     if (key == 'a' || key == 'A') { newScreen("a"); }
     if (key == 'c' || key == 'C') { newScreen("c"); }
     if (key == 'v' || key == 'V') { newScreen("v"); }
     if (key == 'm' || key == 'M') { alreadyHome(); }
     else { badInput(); } 
-}
-
-// Clears the screen and writes the contents of the next screen
-static void newScreen(string screen) // Inputs for the main menu
-{
-    Console.Clear();;
-    Console.WriteLine(File.ReadAllText(screen + ".txt"));
-    whatNext(screen);
 }
 
 static void newOrder() {
@@ -56,16 +49,26 @@ static void viewOrder()
     while (true) ;
 }
 
+// Clears the screen and writes the contents of the next screen
+static void newScreen(string screen) // Inputs for the main menu
+{
+    Console.Clear();;
+    Console.WriteLine(File.ReadAllText(Paths.filePath + screen + ".txt"));
+    whatNext(screen);
+}
 
 // A function to figure out which set of input handlers to go to next
 static void whatNext(string screen)
 {
-    if (screen == "mainMenu") { mainMenu(); } 
-    if (screen == "n") { newOrder(); }
-    if (screen == "a") { ammendOrder(); }
-    if (screen == "c") { cancelOrder(); }
-    if (screen == "v") { viewOrder(); }
-    else badParam();
+    while (true)
+    {
+        if (screen == "mainMenu") { mainMenu(); }
+        if (screen == "n") { newOrder(); }
+        if (screen == "a") { ammendOrder(); }
+        if (screen == "c") { cancelOrder(); }
+        if (screen == "v") { viewOrder(); }
+        else badInput();
+    }
 }
 
 //
@@ -77,30 +80,30 @@ static void whatNext(string screen)
 {
     bool file = true;
     //  Check data.txt
-    file = File.Exists("data.txt");
+    file = File.Exists(Paths.dataPath + "data.txt");
     if (file == false) {
         Console.WriteLine("ERROR-noDataTxt");
         noData();
     }
     
     //  Check mainMenu.txt
-    file = File.Exists("mainMenu.txt");
+    file = File.Exists(Paths.filePath + "mainMenu.txt");
     if (file == false) { fileMissing("mainMenu.txt"); }
 
     //  Check n.txt (new order)
-    file = File.Exists("n.txt");
+    file = File.Exists(Paths.filePath + "n.txt");
     if (file == false) { fileMissing("n.txt"); }
 
     //  Check v.txt (view order)
-    file = File.Exists("v.txt");
+    file = File.Exists(Paths.filePath + "v.txt");
     if (file == false) { fileMissing("v.txt"); }
 
     //  Check a.txt (ammend order)
-    file = File.Exists("a.txt");
+    file = File.Exists(Paths.filePath + "a.txt");
     if (file == false) { fileMissing("a.txt"); }
 
     //  Check c.txt (cancel order)
-    file = File.Exists("c.txt");
+    file = File.Exists(Paths.filePath + "c.txt");
     if (file == false) { fileMissing("c.txt"); }
     //  If the files pass:
     if (file == true)
@@ -145,7 +148,7 @@ static void noData() // A function to handle the lack of needed data, either rep
     string pressed = Console.ReadLine();
     if (pressed == "y")
     {
-        File.Create("data.txt");
+        File.Create(Paths.dataPath + "data.txt");
         Console.WriteLine("The missing data has been replaced. Normal operation will now resume.");
         return;
     }
@@ -189,4 +192,12 @@ static void killProgram(bool error) // Takes a bool to decide if it should wait 
         Console.WriteLine("Exit cause unknown\r\nPress any key to exit");
         System.Environment.Exit(0);
     }
-} 
+}
+
+// Define paths
+public static class Paths
+{
+    public static string dataPath = @"C:\Users\georg\source\repos\GeorgeWithers\MiaSandwitchShop\data\";
+    public static string filePath = @"C:\Users\georg\source\repos\GeorgeWithers\MiaSandwitchShop\files\";
+}
+//
