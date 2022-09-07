@@ -7,12 +7,14 @@
 // start the program
 
 using System.ComponentModel.Design;
-
+// Main loop - this program works by hopping between subroutines so after these blocks its subroutine city
 Console.WriteLine("Starting program\nChecking files");
 FileCheck(); // Check file integrity
-newScreen(mainMenu); // Display the main menu text
-mainMenu();
+newScreen("mainMenu"); // Display the main menu text
 
+//
+//  The input handling subroutines
+//
 
 static void mainMenu()
     {
@@ -22,24 +24,48 @@ static void mainMenu()
     if (key == 'c' || key == 'C') { newScreen("c"); }
     if (key == 'v' || key == 'V') { newScreen("v"); }
     if (key == 'm' || key == 'M') { alreadyHome(); }
-    else badInput();
-    
+    else { badInput(); } 
 }
 
-static void newScreen(string screen)
+// Clears the screen and writes the contents of the next screen
+static void newScreen(string screen) // Inputs for the main menu
 {
     Console.Clear();;
     Console.WriteLine(File.ReadAllText(screen + ".txt"));
     whatNext(screen);
 }
 
+static void newOrder() {
+    Console.WriteLine("Input handling code goes here");
+    while (true) ;
+}
+
+static void ammendOrder()
+{
+    Console.WriteLine("Input handling code goes here");
+    while (true) ;
+}
+static void cancelOrder()
+{
+    Console.WriteLine("Input handling code goes here");
+    while (true) ;
+}
+static void viewOrder()
+{
+    Console.WriteLine("Input handling code goes here");
+    while (true) ;
+}
+
+
+// A function to figure out which set of input handlers to go to next
 static void whatNext(string screen)
 {
+    if (screen == "mainMenu") { mainMenu(); } 
     if (screen == "n") { newOrder(); }
     if (screen == "a") { ammendOrder(); }
     if (screen == "c") { cancelOrder(); }
     if (screen == "v") { viewOrder(); }
-    else { }
+    else badParam();
 }
 
 //
@@ -62,19 +88,19 @@ static void whatNext(string screen)
     if (file == false) { fileMissing("mainMenu.txt"); }
 
     //  Check n.txt (new order)
-    file = File.Exists("n");
+    file = File.Exists("n.txt");
     if (file == false) { fileMissing("n.txt"); }
 
     //  Check v.txt (view order)
-    file = File.Exists("v");
+    file = File.Exists("v.txt");
     if (file == false) { fileMissing("v.txt"); }
 
     //  Check a.txt (ammend order)
-    file = File.Exists("a");
+    file = File.Exists("a.txt");
     if (file == false) { fileMissing("a.txt"); }
 
     //  Check c.txt (cancel order)
-    file = File.Exists("c");
+    file = File.Exists("c.txt");
     if (file == false) { fileMissing("c.txt"); }
     //  If the files pass:
     if (file == true)
@@ -84,7 +110,7 @@ static void whatNext(string screen)
     }
     // Should never get here but just in case of solar flares:
     else {
-        Console.WriteLine("The file check has failed for some unknown reason, If the problem persists call support\r\nERROR-fileCheckFail")
+        Console.WriteLine("The file check has failed for some unknown reason, If the problem persists call support\r\nERROR-fileCheckFail");
         killProgram(true);    
     }
 }
@@ -141,7 +167,7 @@ static void fileMissing(string file)
 {
     Console.WriteLine("During a check of required program files one or more was missing. Missing file:");
     Console.WriteLine(file);
-    Console.WriteLine("ERROR-MissingFile")
+    Console.WriteLine("ERROR-MissingFile");
     killProgram(true);
 }
 
